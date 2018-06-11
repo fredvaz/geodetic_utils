@@ -1,0 +1,38 @@
+<launch>
+  <!-- This launch file will start the
+
+  -->
+
+  <!-- Manual World Reference -->
+  <arg name="manual_reference" default="false"/>
+
+  <!-- Set World Reference by a GPS Initial Robot Pose -->
+  <arg name="robot_name" default=""/>
+
+  <!-- World Reference -->
+  <arg name="gps_ref_latitude" default="0.0"/>
+  <arg name="gps_ref_longitude" default="0.0"/>
+  <arg name="gps_ref_altitude" default="0.0"/>
+
+  <!-- Manual World Reference -->
+  <group if="$(arg manual_reference)">
+
+    <param name="/gps_ref_latitude" type="float" value="$(arg gps_ref_latitude)" />
+    <param name="/gps_ref_longitude" type="float" value="$(arg gps_ref_longitude)" />
+    <param name="/gps_ref_altitude" type="float" value="$(arg gps_ref_altitude)" />
+    <param name="/gps_ref_is_init" type="boolean" value="true" />
+
+  </group>
+
+  <!-- Set World Reference by a GPS Initial Robot Pose -->
+  <group unless="$(arg manual_reference)">
+
+    <node name="geodetic_reference" pkg="geodetic_utils" type="set_gps_reference_node"
+          args="rosrun geodetic_utils set_gps_reference_node" output="screen">
+
+          <remap from="gps" to="$(arg robot_name)/gps"/>
+
+    </node>
+
+  </group>
+</launch>

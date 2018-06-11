@@ -1,0 +1,32 @@
+<launch>
+  <!-- This launch file will start the
+
+  -->
+  <!-- Reference Type -->
+  <arg name="use_ned_frame" default="false"/>
+  <!-- Simulation -->
+  <arg name="is_sim" default="false"/>
+  <!-- Reference frame of position/pose menssage world -->
+  <arg name="frame_id" default="world_ned"/>
+  <!-- Reference frame of GPS receiver -->
+  <arg name="tf_child_frame_id" default="gps_receiver"/>
+  <!-- By default will publish a position message (Point)
+      and can publish a pose message (Point & Orientation) -->
+  <arg name="publish_pose" default="false"/>
+
+  <node name="geodetic_conversion" pkg="geodetic_utils" type="gps_to_pose_conversion_node"
+        args="rosrun geodetic_utils gps_to_pose_conversion_node" output="screen">
+        
+        <param name="use_ned_frame" type="boolean" value="$(arg use_ned_frame)" />
+        <param name="is_sim" type="boolean" value="$(arg is_sim)" />
+
+        <param name="frame_id" type="string" value="$(arg frame_id)" />
+        <param name="tf_child_frame_id" type="string" value="$(arg tf_child_frame_id)" />
+
+        <param name="publish_pose" type="boolean" value="$(arg publish_pose)" />
+
+        <rosparam command="load" file="$(find geodetic_utils)/parameters/gps_pose_covariance.yaml"/>
+
+  </node>
+
+</launch>

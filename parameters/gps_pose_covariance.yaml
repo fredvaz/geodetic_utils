@@ -3,16 +3,14 @@
 # when trust_gps = true, take covariances from GPS sensor (NavSatFix message)
 # directly;
 # when trust_gps = false, use fixed values below.
-trust_gps: false
+trust_gps: true
 
 fixed_covariance:
-
 # in m^2
   position:
     x: 4 # +/- 2 m
     y: 4 # +/- 2 m
     z: 0.05 # ...
-
 # in rad^2
   orientation:
     x: 0.02 # +/- 10 deg
